@@ -37,6 +37,7 @@ func NewMessageProducer(c config.Config) (*MessageProducer, error) {
 		mq.RProducer = p
 	} else if c.UsingQueue == "kafka" {
 		config := sarama.NewConfig()
+		config.Producer.RequiredAcks = sarama.WaitForAll
 		config.Producer.Return.Successes = true
 		config.Producer.Timeout = 6 * time.Second
 		p, err := sarama.NewSyncProducer(c.Kafka.BootstrapServer, config)
@@ -86,7 +87,9 @@ func (mp *MessageProducer) SendWithKey(series, key *string, payload []byte) (err
 			Key:   keyEncoder,
 			Value: sarama.ByteEncoder(payload),
 		}
+		// fmt.Println("start send message ...")
 		_, _, err = mp.KProducer.SendMessage(msg)
+		// fmt.Println("send message done.")
 	}
 	return
 }

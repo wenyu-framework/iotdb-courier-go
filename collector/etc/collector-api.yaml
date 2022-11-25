@@ -2,7 +2,7 @@ Name: collector-api
 Host: 0.0.0.0
 Port: 9919
 UsingTopic: IOT_DB_MSG_01
-UsingQueue: kafka
+UsingQueue: rocketmq
 RocketMQ:
   NameServer:
     - 10.211.55.9:9876
