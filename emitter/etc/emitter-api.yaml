@@ -1,0 +1,37 @@
+Name: emitter-api
+UsingTopic: IOT_DB_MSG_01
+UsingQueue: rocketmq
+IoTDB:
+  NodeUrl:
+    - 10.211.55.9:6667
+  Username: root
+  Password: root
+  BasePath: root.ln.msg01
+  # 指定时间戳格式，仅当以下指定的时间戳字段对应的值为字符串时有效。如值为数字，则当作自1970-1-1T00:00:00.000的毫（纳）秒数。
+  # 年：短-06，长-2006；月：01，Jan，January; 日：02，2，_2
+  # 时：24时制-15，12时制简短-3，12时制两位-03；分：04，4；秒：05，5
+  TimeParse: "01-02 15-04-05"
+  # 指定时间截所使用的key，默认为"time"
+  TimeField: Time
+  # 时间序列的单位：ms / ns
+  TimeUnit: ns
+  # 时区，默认为东八区，Asia/Shanghai
+  TimeZone: "Asia/Shanghai"
+  # 指定设备ID，#{key}语法用于从消息中提取key对应的值，默认为空，表示通过消息的KEY（RocketMQ是Tag）来确定设备ID
+  OverwriteDeviceId: "#{hostid}##{filename}"
+  # 启用批量提交，默认为false
+  EnableBatchCommit: true
+  # 自动提交时间间隔（单位：秒），默认为1s
+  CommitInterval: 30
+  # 最大提交批量，默认为100，接收的消息数据达到此批量时，则不考虑间隔，立刻进行一次提交。
+  MaxCommitBatchSize: 3
+RocketMQ:
+  NameServer:
+    - 10.211.55.9:9876
+  GroupName: iot_db_consumer
+  Retry: 2
+Kafka:
+  BootstrapServer:
+    - 10.211.55.9:9092
+  GroupId: iot_db_consumer
+  CommitIntervalSec: 1

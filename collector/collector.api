@@ -1,0 +1,14 @@
+type AcceptRequest {
+	Series string `form:"series"`
+	Key    string `form:"key, optional"`
+}
+
+type Response {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+
+service collector-api {
+	@handler CollectorHandler
+	post /accept (AcceptRequest) returns (Response)
+}
